@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import Sidebar from './components/Sidebar'
+import Followbar from './components/Followbar'
 
 export const metadata: Metadata = {
   title: 'Twitter',
@@ -23,7 +24,7 @@ export default function RootLayout({
             {children}
           </div>
           <div className="follow">
-
+            <Followbar />
           </div>
         </main>
       </body>
