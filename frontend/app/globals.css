@@ -18,19 +18,19 @@ main {
 .sidebar {
   width: 20%;
   height: 100%;
-  border-right: 1px solid rgb(68, 68, 68);
+  border-right: 1px solid rgb(48, 48, 48);
 }
 
 .main {
   width: 50%;
   height: 100%;
-  box-shadow: 0 0 5px rgb(68, 68, 68);
+  box-shadow: 0 0 5px rgb(48, 48, 48);
 }
 
 .follow {
   width: 30%;
   height: 100%;
-  border-left: 1px solid rgb(68, 68, 68);
+  border-left: 1px solid rgb(48, 48, 48);
 }
 
 @media (max-width: 1200px) {

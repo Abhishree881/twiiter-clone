@@ -51,15 +51,15 @@ const Sidebar = (props: Props) => {
                         <span className="sidenav-desc">Logout</span>
                     </a>
                 </div>
-                <a className='post-a' href="/">
-                    <div className="post-button">
-
-                        <span className="post-icon"><FaFeather /></span>
-                        <span className="post-text">Post</span>
-
-                    </div>
-                </a>
             </div>
+            <a className='post-a' href="/">
+                <div className="post-button">
+
+                    <span className="post-icon"><FaFeather /></span>
+                    <span className="post-text">Post</span>
+
+                </div>
+            </a>
         </div>
     )
 }
