@@ -198,6 +198,10 @@ main {
     height: fit-content;
   }
 
+  .sidebar-body {
+    background-color: rgba(20, 20, 20, 0.95);
+  }
+
   .sidenav {
     display: flex;
     flex-direction: row;
