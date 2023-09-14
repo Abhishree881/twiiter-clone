@@ -3,6 +3,7 @@ import { BiLogOut } from 'react-icons/bi';
 import { BsHouseFill, BsBellFill } from 'react-icons/bs';
 import { FaUser } from 'react-icons/fa';
 import useCurrentUser from '@/hooks/useCurrentUser';
+import Link from 'next/link';
 
 import SidebarItem from './SidebarItem';
 import SidebarTweetButton from './SidebarTweetButton';
@@ -33,9 +34,9 @@ const Sidebar = () => {
 
   return (
     <div className='sidebar-body'>
-      <a href="/">
+      <Link href="/">
         <img className='logo' src="https://i.ytimg.com/vi/bZqPmiikY-s/maxresdefault.jpg" />
-      </a>
+      </Link>
       <div className="sidenav">
         {items.map((item) => (
           <SidebarItem
