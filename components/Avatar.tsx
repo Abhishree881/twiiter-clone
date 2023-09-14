@@ -40,7 +40,8 @@ const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
         fill
         style={{
           objectFit: 'cover',
-          borderRadius: '100%'
+          borderRadius: '100%',
+          zIndex: '0'
         }}
         alt="Avatar"
         onClick={onClick}
@@ -49,5 +50,5 @@ const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
     </div>
   );
 }
- 
+
 export default Avatar;

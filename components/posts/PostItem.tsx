@@ -18,7 +18,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
   const loginModal = useLoginModal();
 
   const { data: currentUser } = useCurrentUser();
-  const { hasLiked, toggleLike } = useLike({ postId: data.id, userId});
+  const { hasLiked, toggleLike } = useLike({ postId: data.id, userId });
 
   const goToUser = useCallback((ev: any) => {
     ev.stopPropagation();
@@ -50,8 +50,9 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
   }, [data.createdAt])
 
   return (
-    <div 
+    <div
       onClick={goToPost}
+      style={{ zIndex: 0 }}
       className="
         border-b-[1px] 
         border-neutral-800 
@@ -64,8 +65,8 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
         <Avatar userId={data.user.id} />
         <div>
           <div className="flex flex-row items-center gap-2">
-            <p 
-              onClick={goToUser} 
+            <p
+              onClick={goToUser}
               className="
                 text-white 
                 font-semibold 
@@ -74,8 +75,8 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
             ">
               {data.user.name}
             </p>
-            <span 
-              onClick={goToUser} 
+            <span
+              onClick={goToUser}
               className="
                 text-neutral-500
                 cursor-pointer
@@ -93,7 +94,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
             {data.body}
           </div>
           <div className="flex flex-row items-center mt-3 gap-10">
-            <div 
+            <div
               className="
                 flex 
                 flex-row 

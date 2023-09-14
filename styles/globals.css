@@ -30,9 +30,14 @@ main {
 
 .main {
   width: 50%;
-  height: fit-content;
-  min-height: 100%;
+  /* height: fit-content; */
+  height: 100%;
+  overflow-x: scroll;
   box-shadow: 0 0 5px rgb(48, 48, 48);
+}
+
+.main::-webkit-scrollbar {
+  display: none;
 }
 
 .follow {
@@ -64,8 +69,8 @@ main {
 
 @media (max-width: 700px) {
   main {
-    width: 98%;
-    margin-left: 2%;
+    width: 95%;
+    margin-left: 5%;
   }
 }
 
@@ -83,6 +88,11 @@ main {
     border-top: 1px solid rgb(18, 18, 18);
     width: 100vw;
     bottom: 0;
+    z-index: 999999;
+  }
+
+  .sidenav {
+    z-index: 999999;
   }
 }
 
@@ -199,7 +209,8 @@ main {
   }
 
   .sidebar-body {
-    background-color: rgba(20, 20, 20, 0.95);
+    background-color: rgb(20, 20, 20, 0.95);
+    backdrop-filter: blur(10px);
   }
 
   .sidenav {
@@ -256,6 +267,7 @@ main {
 /* ------------------------------------------Main-----------------------------------*/
 .home {
   margin-top: 2vh;
+  position: relative;
 }
 
 .home-header {
