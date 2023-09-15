@@ -7,14 +7,16 @@ import LoginModal from '@/components/modals/LoginModal';
 import RegisterModal from '@/components/modals/RegisterModal';
 import '@/styles/globals.css';
 import EditModal from '@/components/modals/EditModal';
+import EditPostModal from '@/components/modals/EditPostModal';
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }) {
   return (
     <SessionProvider session={pageProps.session}>
       <Toaster />
       <RegisterModal />
       <LoginModal />
       <EditModal />
+      {/* <EditPostModal /> */}
       <Layout>
         <Component {...pageProps} />
       </Layout>

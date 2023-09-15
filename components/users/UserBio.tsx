@@ -29,15 +29,17 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
     return format(new Date(fetchedUser.createdAt), 'MMMM yyyy');
   }, [fetchedUser?.createdAt])
 
+  console.log(currentUser + " bye " + userId);
 
-  return ( 
+
+  return (
     <div className="border-b-[1px] border-neutral-800 pb-4">
       <div className="flex justify-end p-2">
         {currentUser?.id === userId ? (
           <Button secondary label="Edit" onClick={editModal.onOpen} />
         ) : (
           <Button
-            onClick={toggleFollow} 
+            onClick={toggleFollow}
             label={isFollowing ? 'Unfollow' : 'Follow'}
             secondary={!isFollowing}
             outline={isFollowing}
@@ -57,7 +59,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
           <p className="text-white">
             {fetchedUser?.bio}
           </p>
-          <div 
+          <div
             className="
               flex 
               flex-row 
@@ -84,7 +86,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
         </div>
       </div>
     </div>
-   );
+  );
 }
- 
+
 export default UserBio;

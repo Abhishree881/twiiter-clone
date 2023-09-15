@@ -8,16 +8,28 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 import useLike from '@/hooks/useLike';
 
 import Avatar from '../Avatar';
+import useEditPostModal from "@/hooks/useEditPostModal";
+import Button from "../Button";
+
+import EditPostModal from '../modals/EditPostModal';
+
+
 interface PostItemProps {
   data: Record<string, any>;
   userId?: string;
+  profile?: boolean;
 }
 
-const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
+const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
+
   const router = useRouter();
   const loginModal = useLoginModal();
 
+  const editPostModal = useEditPostModal();
+
   const { data: currentUser } = useCurrentUser();
+  console.log(currentUser.id + " hello " + userId);
+
   const { hasLiked, toggleLike } = useLike({ postId: data.id, userId });
 
   const goToUser = useCallback((ev: any) => {
@@ -49,11 +61,14 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
     return formatDistanceToNowStrict(new Date(data.createdAt));
   }, [data.createdAt])
 
+
   return (
-    <div
-      onClick={goToPost}
-      style={{ zIndex: 0 }}
-      className="
+    <>
+      <EditPostModal data={data} />
+      <div
+        onClick={goToPost}
+        style={{ zIndex: 0 }}
+        className="
         posts
         // border-[1px] 
         // border-neutral-800
@@ -62,41 +77,49 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
         hover:bg-neutral-900 
         transition
       ">
-      <div className="flex flex-row items-start gap-3">
-        <Avatar userId={data.user.id} />
-        <div>
-          <div className="flex flex-row items-center gap-2">
-            <p
-              onClick={goToUser}
-              className="
+        <div className="flex flex-row items-start gap-3">
+          <Avatar userId={data.user.id} />
+          <div style={{ width: "100%" }}>
+            <div style={{ display: "flex", justifyContent: 'space-between', flexDirection: "row", width: "100%" }}>
+              <div className="flex flex-row items-center gap-2">
+                <p
+                  onClick={goToUser}
+                  className="
                 text-white 
                 font-semibold 
                 cursor-pointer 
                 hover:underline
             ">
-              {data.user.name}
-            </p>
-            <span
-              onClick={goToUser}
-              className="
+                  {data.user.name}
+                </p>
+                <span
+                  onClick={goToUser}
+                  className="
                 text-neutral-500
                 cursor-pointer
                 hover:underline
                 hidden
                 md:block
             ">
-              @{data.user.username}
-            </span>
-            <span className="text-neutral-500 text-sm">
-              {createdAt}
-            </span>
-          </div>
-          <div className="text-white mt-1">
-            {data.body}
-          </div>
-          <div className="flex flex-row items-center mt-3 gap-10">
-            <div
-              className="
+                  @{data.user.username}
+                </span>
+                <span className="text-neutral-500 text-sm">
+                  {createdAt}
+                </span>
+
+
+                {/* <Button secondary label="Edit" onClick={editPostModal.onOpen} /> */}
+              </div>
+              {profile && currentUser.id === userId ? (
+                <Button secondary label="Edit" onClick={editPostModal.onOpen} />
+              ) : ""}
+            </div>
+            <div className="text-white mt-1">
+              {data.body}
+            </div>
+            <div className="flex flex-row items-center mt-3 gap-10">
+              <div
+                className="
                 flex 
                 flex-row 
                 items-center 
@@ -106,14 +129,14 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
                 transition 
                 hover:text-sky-500
             ">
-              <AiOutlineMessage size={20} />
-              <p>
-                {data.comments?.length || 0}
-              </p>
-            </div>
-            <div
-              onClick={onLike}
-              className="
+                <AiOutlineMessage size={20} />
+                <p>
+                  {data.comments?.length || 0}
+                </p>
+              </div>
+              <div
+                onClick={onLike}
+                className="
                 flex 
                 flex-row 
                 items-center 
@@ -123,15 +146,16 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
                 transition 
                 hover:text-red-500
             ">
-              <LikeIcon color={hasLiked ? 'red' : ''} size={20} />
-              <p>
-                {data.likedIds.length}
-              </p>
+                <LikeIcon color={hasLiked ? 'red' : ''} size={20} />
+                <p>
+                  {data.likedIds.length}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

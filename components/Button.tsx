@@ -8,16 +8,16 @@ interface ButtonProps {
   outline?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ 
-  label, 
-  secondary, 
-  fullWidth, 
-  onClick, 
-  large, 
-  disabled, 
-  outline 
+const Button: React.FC<ButtonProps> = ({
+  label,
+  secondary,
+  fullWidth,
+  onClick,
+  large,
+  disabled,
+  outline
 }) => {
-  return ( 
+  return (
     <button
       disabled={disabled}
       onClick={onClick}
@@ -43,7 +43,7 @@ const Button: React.FC<ButtonProps> = ({
     >
       {label}
     </button>
-   );
+  );
 }
- 
+
 export default Button;

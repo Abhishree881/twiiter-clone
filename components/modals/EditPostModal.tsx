@@ -16,7 +16,7 @@ interface PostItemProps {
 
 const EditPostModal: React.FC<PostItemProps> = ({ data = {} }) => {
     const { data: fetchedPost, mutate: mutateFetchedPost } = usePost(data.id);
-    const { postId } = data.id;
+    const id = data.id;
     const editModal = useEditPostModal();
 
     const [body, setBody] = useState('');
@@ -25,13 +25,14 @@ const EditPostModal: React.FC<PostItemProps> = ({ data = {} }) => {
         setBody(fetchedPost?.body)
     }, [fetchedPost?.body]);
 
+
     const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = useCallback(async () => {
         try {
             setIsLoading(true);
 
-            await axios.patch('/api/editpost', { body, postId });
+            await axios.put('/api/editpost', { body, id });
             mutateFetchedPost();
 
             toast.success('Updated');
@@ -59,7 +60,7 @@ const EditPostModal: React.FC<PostItemProps> = ({ data = {} }) => {
         <Modal
             disabled={isLoading}
             isOpen={editModal.isOpen}
-            title="Edit your profile"
+            title="Edit your tweet"
             actionLabel="Save"
             onClose={editModal.onClose}
             onSubmit={onSubmit}

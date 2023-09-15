@@ -4,14 +4,15 @@ import serverAuth from "@/libs/serverAuth";
 import prisma from "@/libs/prismadb";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'PATCH') {
+  if (req.method !== 'PUT') {
     return res.status(405).end();
   }
 
   try {
-    // const { currentUser } = await serverAuth(req, res);
+  
+    await serverAuth(req, res);
 
-    const { body,postId } = req.body;
+    const { body,id } = req.body;
 
     if (!body) {
       throw new Error('Missing fields');
@@ -19,10 +20,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const updatedUser = await prisma.post.update({
       where: {
-        id: postId,
+        id: id,
       },
       data: {
-        body,
+        body: body,
       }
     });
 
