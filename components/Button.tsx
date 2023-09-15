@@ -1,11 +1,14 @@
+import { FaEdit } from 'react-icons/fa';
+
 interface ButtonProps {
-  label: string;
+  label?: string;
   secondary?: boolean;
   fullWidth?: boolean;
   large?: boolean;
   onClick: () => void;
   disabled?: boolean;
   outline?: boolean;
+  edit?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -15,7 +18,8 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   large,
   disabled,
-  outline
+  outline,
+  edit
 }) => {
   return (
     <button
@@ -42,6 +46,7 @@ const Button: React.FC<ButtonProps> = ({
       `}
     >
       {label}
+      {edit ? <FaEdit /> : ""}
     </button>
   );
 }

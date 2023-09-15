@@ -111,7 +111,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
                 {/* <Button secondary label="Edit" onClick={editPostModal.onOpen} /> */}
               </div>
               {profile && currentUser.id === userId ? (
-                <Button secondary label="Edit" onClick={editPostModal.onOpen} />
+                <Button secondary onClick={editPostModal.onOpen} edit={true} />
               ) : ""}
             </div>
             <div className="text-white mt-1">
