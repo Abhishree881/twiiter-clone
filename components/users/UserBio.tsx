@@ -11,9 +11,10 @@ import Button from "../Button";
 
 interface UserBioProps {
   userId: string;
+  mode: number;
 }
 
-const UserBio: React.FC<UserBioProps> = ({ userId }) => {
+const UserBio: React.FC<UserBioProps> = ({ userId, mode }) => {
   const { data: currentUser } = useCurrentUser();
   const { data: fetchedUser } = useUser(userId);
 
@@ -33,7 +34,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
 
 
   return (
-    <div className="border-b-[1px] border-neutral-800 pb-4">
+    <div className={`border-b-[1px] pb-4 ${mode ? 'posts-light' : 'posts-dark'}`}>
       <div className="flex justify-end p-2">
         {currentUser?.id === userId ? (
           <Button secondary label="Edit" onClick={editModal.onOpen} />

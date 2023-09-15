@@ -10,7 +10,7 @@
 .body {
   margin: 0;
   font-family: 'Work Sans', sans-serif;
-  transition: all 2s ease-in-out;
+  transition: all 1s ease-in-out;
 }
 
 .body-dark {
@@ -34,7 +34,14 @@ main {
 .sidebar {
   width: 20%;
   height: 100%;
-  border-right: 1px solid rgb(128, 128, 128);
+}
+
+.sidebar-dark {
+  border-right: 1px solid rgb(28, 28, 28);
+}
+
+.sidebar-light {
+  border-right: 1px solid rgb(206, 206, 206);
 }
 
 .main {
@@ -44,9 +51,6 @@ main {
   overflow-x: scroll;
 }
 
-.main-dark {
-  box-shadow: 0 0 5px rgb(128, 128, 128);
-}
 
 .main::-webkit-scrollbar {
   display: none;
@@ -55,8 +59,16 @@ main {
 .follow {
   width: 30%;
   height: 100%;
-  border-left: 1px solid rgb(128, 128, 128);
 }
+
+.follow-dark {
+  border-left: 1px solid rgb(28, 28, 28);
+}
+
+.follow-light {
+  border-left: 1px solid rgb(206, 206, 206);
+}
+
 
 @media (max-width: 1200px) {
   .sidebar {
@@ -270,6 +282,8 @@ main {
   margin: auto;
   border-radius: 15px;
   padding: 15px;
+  max-height: 90vh;
+  overflow-y: hidden;
 }
 
 .follow-box-dark {
@@ -292,6 +306,7 @@ main {
   margin-top: 1.5vh;
 }
 
+
 /* ------------------------------------------Main-----------------------------------*/
 .home {
   margin-top: 2vh;
@@ -299,10 +314,17 @@ main {
 }
 
 .home-header {
-  border-bottom: 1px solid rgb(128, 128, 128);
   padding-bottom: 2vh;
   display: flex;
   align-items: center;
+}
+
+.home-header-dark {
+  border-bottom: 1px solid rgb(28, 28, 28);
+}
+
+.home-header-light {
+  border-bottom: 1px solid rgb(206, 206, 206);
 }
 
 .home-head {
@@ -316,6 +338,7 @@ main {
   justify-content: center;
   align-items: center;
   opacity: 0;
+  margin: 1vh 0;
 }
 
 .home-logo {
@@ -359,4 +382,12 @@ main {
   margin: 1vh auto;
   border-radius: 20px;
   overflow: hidden;
+}
+
+.posts-dark {
+  border: 1px solid rgb(28, 28, 28);
+}
+
+.posts-light {
+  border: 1px solid rgb(206, 206, 206);
 }

@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import NotificationsFeed from "@/components/NotificationsFeed";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import { NextPageContext } from "next";
+import { NextPageContext, InferGetServerSidePropsType } from "next";
 import { getSession } from "next-auth/react";
 
 export async function getServerSideProps(context: NextPageContext) {
@@ -23,13 +23,13 @@ export async function getServerSideProps(context: NextPageContext) {
   }
 }
 
-const Notifications = () => {
-  return ( 
+const Notifications: React.FC<{ mode: number }> = ({ mode }) => {
+  return (
     <>
-      <Header showBackArrow label="Notifications" />
-      <NotificationsFeed />
+      <Header mode={mode} showBackArrow label="Notifications" />
+      <NotificationsFeed mode={mode} />
     </>
-   );
+  );
 }
- 
+
 export default Notifications;

@@ -25,9 +25,10 @@ interface PostItemProps {
   data: Record<string, any>;
   userId?: string;
   profile?: boolean;
+  mode: number;
 }
 
-const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
+const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode }) => {
 
   const router = useRouter();
   const loginModal = useLoginModal();
@@ -94,16 +95,15 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
       <div
         onClick={goToPost}
         style={{ zIndex: 0 }}
-        className="
+        className={`
         posts
-        // border-[1px] 
-        // border-neutral-800
+        ${mode ? 'posts-light' : 'posts-dark'}
         p-5 
         cursor-pointer 
-        hover:bg-neutral-900 
+        hover:bg-neutral-700 
         hover:bg-opacity-10
         transition
-      ">
+        `}>
         <div className="flex flex-row items-start gap-3">
           <Avatar userId={data.user.id} />
           <div style={{ width: "100%" }}>

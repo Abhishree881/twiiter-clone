@@ -48,7 +48,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, title, body, a
           z-50 
           outline-none 
           focus:outline-none
-          bg-skyblue-500
           bg-opacity-70
         "
       >
@@ -64,7 +63,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, title, body, a
             flex 
             flex-col 
             w-full 
-            // bg-black 
+            bg-black 
           bg-skyblue-500
 
             outline-none 

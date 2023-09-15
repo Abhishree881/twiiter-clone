@@ -9,7 +9,7 @@ import PostItem from "@/components/posts/PostItem";
 import CommentFeed from "@/components/posts/CommentFeed";
 
 
-const PostView = () => {
+const PostView: React.FC<{ mode: number }> = ({ mode }) => {
   const router = useRouter();
   const { postId } = router.query;
 
@@ -23,14 +23,14 @@ const PostView = () => {
     )
   }
 
-  return ( 
+  return (
     <>
-      <Header showBackArrow label="Tweet" />
-      <PostItem data={fetchedPost} />
-      <Form postId={postId as string} isComment placeholder="Tweet your reply" />
+      <Header mode={mode} showBackArrow label="Tweet" />
+      <PostItem mode={mode} data={fetchedPost} />
+      <Form mode={mode} postId={postId as string} isComment placeholder="Tweet your reply" />
       <CommentFeed comments={fetchedPost?.comments} />
     </>
-   );
+  );
 }
- 
+
 export default PostView;

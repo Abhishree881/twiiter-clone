@@ -21,7 +21,7 @@ const App: React.FC<{ Component: any, pageProps: any }> = ({ Component, pageProp
       <EditModal />
       {/* <EditPostModal /> */}
       <Layout mode={mode} setMode={setMode}>
-        <Component {...pageProps} />
+        <Component {...pageProps} mode={mode} />
       </Layout>
     </SessionProvider>
   );

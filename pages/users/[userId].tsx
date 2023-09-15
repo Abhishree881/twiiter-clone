@@ -10,7 +10,7 @@ import UserHero from "@/components/users/UserHero";
 
 
 
-const UserView: React.FC<{ props: any }> = (props) => {
+const UserView: React.FC<{ mode: number }> = ({ mode }) => {
   const router = useRouter();
   const { userId } = router.query;
 
@@ -26,10 +26,10 @@ const UserView: React.FC<{ props: any }> = (props) => {
 
   return (
     <>
-      <Header showBackArrow label={fetchedUser?.name} />
+      <Header mode={mode} showBackArrow label={fetchedUser?.name} />
       <UserHero userId={userId as string} />
-      <UserBio userId={userId as string} />
-      <PostFeed userId={userId as string} profile={true} />
+      <UserBio mode={mode} userId={userId as string} />
+      <PostFeed mode={mode} userId={userId as string} profile={true} />
     </>
   );
 }

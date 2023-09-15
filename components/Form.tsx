@@ -15,9 +15,10 @@ interface FormProps {
   placeholder: string;
   isComment?: boolean;
   postId?: string;
+  mode: number;
 }
 
-const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
+const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
 
@@ -48,7 +49,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
   }, [body, mutatePosts, isComment, postId, mutatePost]);
 
   return (
-    <div className="px-5 py-2" style={{ borderBottom: "1px solid rgb(128,128,128)" }}>
+    <div className="px-5 py-2" style={{ borderBottom: mode ? "1px solid rgb(206,206,206)" : "1px solid rgb(28,28,28)" }}>
       {currentUser ? (
         <div className="flex flex-row gap-4">
           <div>
@@ -59,7 +60,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
               disabled={isLoading}
               onChange={(event) => setBody(event.target.value)}
               value={body}
-              className="
+              className={`
                 disabled:opacity-80
                 peer
                 resize-none 
@@ -70,8 +71,8 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId }) => {
                 outline-none 
                 text-[20px] 
                 placeholder-neutral-500 
-                text-neutral-500
-              "
+                ${mode ? 'text-black' : 'text-white'}
+      `}
               placeholder={placeholder}>
             </textarea>
             <hr
