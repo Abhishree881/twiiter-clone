@@ -24,7 +24,6 @@ const Header: React.FC<HeaderProps> = ({ showBackArrow, label }) => {
         {showBackArrow && (
           <BiArrowBack
             onClick={handleBack}
-            color="white"
             size={20}
             style={{ marginLeft: "2vw" }}
             className="

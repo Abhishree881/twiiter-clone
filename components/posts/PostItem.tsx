@@ -101,6 +101,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
         p-5 
         cursor-pointer 
         hover:bg-neutral-900 
+        hover:bg-opacity-10
         transition
       ">
         <div className="flex flex-row items-start gap-3">
@@ -110,8 +111,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
               <div className="flex flex-row items-center gap-2">
                 <p
                   onClick={goToUser}
-                  className="
-                text-white 
+                  className=" 
                 font-semibold 
                 cursor-pointer 
                 hover:underline
@@ -137,13 +137,13 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
                 {/* <Button secondary label="Edit" onClick={editPostModal.onOpen} /> */}
               </div>
               {profile && currentUser?.id === userId ? (
-                <div style={{ gap: "10px", display: "flex", padding: '7px 15px', borderRadius: "20px", backgroundColor: "#303030" }}>
+                <div style={{ gap: "10px", display: "flex", padding: '7px 15px', borderRadius: "20px", border: "1px solid rgb(128,128,128)" }}>
                   <div style={{ color: "skyblue" }} onClick={editPostModal.onOpen}><FaEdit /></div>
                   <div style={{ color: "red" }} onClick={handleClick}><FaTrash /></div>
                 </div>
               ) : ""}
             </div>
-            <div className="text-white mt-1">
+            <div className=" mt-1">
               {data.body}
             </div>
             <div className="flex flex-row items-center mt-3 gap-10">
@@ -183,7 +183,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     </>
   )
 }

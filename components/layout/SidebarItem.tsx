@@ -13,9 +13,10 @@ interface SidebarItemProps {
   onClick?: () => void;
   auth?: boolean;
   alert?: boolean;
+  mode: number;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ label, icon: Icon, href, auth, onClick, alert }) => {
+const SidebarItem: React.FC<SidebarItemProps> = ({ label, icon: Icon, href, auth, onClick, alert, mode }) => {
   const router = useRouter();
   const loginModal = useLoginModal();
 
@@ -35,15 +36,15 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ label, icon: Icon, href, auth
 
   return (
     <div onClick={handleClick} className="sidenav-items">
-      <div className="sidenav-items-a relative">
-        <span className="sidenav-icon"><Icon size={28} color="white" /></span>
+      <div className={`sidenav-items-a relative ${mode ? 'sidenav-items-a-light' : 'sidenav-items-a-dark'}`}>
+        <span className="sidenav-icon"><Icon size={28} /></span>
         {alert ? <BsDot className="text-sky-500 absolute -top-6 -left-1" size={70} /> : null}
         <span className='sidenav-text'>
           {label}
         </span>
         <span className="sidenav-desc">{label}</span>
       </div>
-    </div>
+    </div >
   );
 }
 

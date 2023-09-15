@@ -21,12 +21,12 @@ const Input: React.FC<InputProps> = ({ placeholder, value, type = "text", onChan
           w-full
           p-4 
           text-lg 
-          bg-black 
+          // bg-black 
           border-2
           border-neutral-800 
           rounded-md
           outline-none
-          text-white
+          // text-white
           focus:border-sky-500
           focus:border-2
           transition
@@ -36,7 +36,7 @@ const Input: React.FC<InputProps> = ({ placeholder, value, type = "text", onChan
         "
       />
     </div>
-   );
+  );
 }
- 
+
 export default Input;

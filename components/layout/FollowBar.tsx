@@ -2,7 +2,7 @@ import useUsers from '@/hooks/useUsers';
 
 import Avatar from '../Avatar';
 
-const FollowBar = () => {
+const FollowBar: React.FC<{ mode: number }> = ({ mode }) => {
   const { data: users = [] } = useUsers();
 
   if (users.length === 0) {
@@ -11,15 +11,15 @@ const FollowBar = () => {
 
   return (
     < div className='followbar' >
-      <div className="follow-box">
+      <div className={`follow-box ${mode ? "follow-box-light" : "follow-box-dark"}`}>
         <span className="follow-head">Who to follow</span>
         <div className="flex flex-col gap-6 mt-4 ">
           {users.map((user: Record<string, any>) => (
             <div key={user.id} className="flex flex-row gap-4 hover:bg-gray-600" style={{ borderRadius: "50px" }}>
               <Avatar userId={user.id} />
               <div className="flex flex-col ">
-                <p className="text-white font-semibold text-sm">{user.name}</p>
-                <p className="text-neutral-400 text-sm">@{user.username}</p>
+                <p className="font-semibold text-sm">{user.name}</p>
+                <p className="text-neutral-500 text-sm">@{user.username}</p>
               </div>
             </div>
           ))}

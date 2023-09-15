@@ -8,9 +8,11 @@ import RegisterModal from '@/components/modals/RegisterModal';
 import '@/styles/globals.css';
 import EditModal from '@/components/modals/EditModal';
 import EditPostModal from '@/components/modals/EditPostModal';
+import { useState } from 'react';
 
 
 const App: React.FC<{ Component: any, pageProps: any }> = ({ Component, pageProps }) => {
+  const [mode, setMode] = useState(0)
   return (
     <SessionProvider session={pageProps.session}>
       <Toaster />
@@ -18,7 +20,7 @@ const App: React.FC<{ Component: any, pageProps: any }> = ({ Component, pageProp
       <LoginModal />
       <EditModal />
       {/* <EditPostModal /> */}
-      <Layout>
+      <Layout mode={mode} setMode={setMode}>
         <Component {...pageProps} />
       </Layout>
     </SessionProvider>
