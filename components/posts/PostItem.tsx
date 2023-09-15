@@ -15,6 +15,8 @@ import EditPostModal from '../modals/EditPostModal';
 
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { FaEdit, FaTrash } from 'react-icons/fa';
+
 
 
 
@@ -70,7 +72,8 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
 
   const id = data.id;
 
-  const handleClick = useCallback(async () => {
+  const handleClick = useCallback(async (ev: any) => {
+    ev.stopPropagation();
     try {
       setIsLoading(true);
 
@@ -134,11 +137,11 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
                 {/* <Button secondary label="Edit" onClick={editPostModal.onOpen} /> */}
               </div>
               <div style={{ gap: "5px", display: "flex" }}>
-                {profile && currentUser.id === userId ? (
-                  <Button small onClick={editPostModal.onOpen} edit={true} />
+                {profile && currentUser?.id === userId ? (
+                  <div style={{ color: "skyblue" }} onClick={editPostModal.onOpen}><FaEdit /></div>
                 ) : ""}
-                {profile && currentUser.id === userId ? (
-                  <Button small secondary onClick={handleClick} del={true} />
+                {profile && currentUser?.id === userId ? (
+                  <div style={{ color: "red" }} onClick={handleClick}><FaTrash /></div>
                 ) : ""}
               </div>
             </div>

@@ -47,10 +47,10 @@ const Button: React.FC<ButtonProps> = ({
         ${outline ? 'bg-transparent' : ''}
         ${outline ? 'border-white' : ''}
         ${outline ? 'text-white' : ''}
-        ${del ? 'bg-red-500' : ''}
         ${del ? 'border-red-500' : ''}
         ${small ? 'px-3' : ''}
         ${small ? 'py-3' : ''}
+        ${del ? 'bg-red-500' : ''}
       `}
     >
       {label}
