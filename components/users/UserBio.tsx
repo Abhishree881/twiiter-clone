@@ -42,8 +42,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId, mode }) => {
           <Button
             onClick={toggleFollow}
             label={isFollowing ? 'Unfollow' : 'Follow'}
-            secondary={!isFollowing}
-            outline={isFollowing}
+            secondary={isFollowing}
           />
         )}
       </div>
