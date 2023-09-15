@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from 'react-icons/ai';
 import { formatDistanceToNowStrict } from 'date-fns';
 
@@ -12,6 +12,11 @@ import useEditPostModal from "@/hooks/useEditPostModal";
 import Button from "../Button";
 
 import EditPostModal from '../modals/EditPostModal';
+
+import axios from "axios";
+import { toast } from "react-hot-toast";
+
+
 
 
 interface PostItemProps {
@@ -28,7 +33,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
   const editPostModal = useEditPostModal();
 
   const { data: currentUser } = useCurrentUser();
-  console.log(currentUser.id + " hello " + userId);
+  // console.log(currentUser.id + " hello " + userId);
 
   const { hasLiked, toggleLike } = useLike({ postId: data.id, userId });
 
@@ -60,6 +65,24 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
 
     return formatDistanceToNowStrict(new Date(data.createdAt));
   }, [data.createdAt])
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const id = data.id;
+
+  const handleClick = useCallback(async () => {
+    try {
+      setIsLoading(true);
+
+      await axios.delete('/api/delete', { data: { id } });
+
+      toast.success('Deleted');
+    } catch (error) {
+      toast.error('Something went wrong');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [id]);
 
 
   return (
@@ -110,9 +133,14 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
 
                 {/* <Button secondary label="Edit" onClick={editPostModal.onOpen} /> */}
               </div>
-              {profile && currentUser.id === userId ? (
-                <Button secondary onClick={editPostModal.onOpen} edit={true} />
-              ) : ""}
+              <div style={{ gap: "5px", display: "flex" }}>
+                {profile && currentUser.id === userId ? (
+                  <Button small onClick={editPostModal.onOpen} edit={true} />
+                ) : ""}
+                {profile && currentUser.id === userId ? (
+                  <Button small secondary onClick={handleClick} del={true} />
+                ) : ""}
+              </div>
             </div>
             <div className="text-white mt-1">
               {data.body}

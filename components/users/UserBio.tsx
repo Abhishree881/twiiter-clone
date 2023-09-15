@@ -29,7 +29,7 @@ const UserBio: React.FC<UserBioProps> = ({ userId }) => {
     return format(new Date(fetchedUser.createdAt), 'MMMM yyyy');
   }, [fetchedUser?.createdAt])
 
-  console.log(currentUser + " bye " + userId);
+  // console.log(currentUser + " bye " + userId);
 
 
   return (
