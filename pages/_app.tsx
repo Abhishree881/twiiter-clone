@@ -9,7 +9,8 @@ import '@/styles/globals.css';
 import EditModal from '@/components/modals/EditModal';
 import EditPostModal from '@/components/modals/EditPostModal';
 
-function App({ Component, pageProps }) {
+
+const App: React.FC<{ Component: any, pageProps: any }> = ({ Component, pageProps }) => {
   return (
     <SessionProvider session={pageProps.session}>
       <Toaster />

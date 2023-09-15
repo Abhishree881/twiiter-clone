@@ -10,7 +10,7 @@ import UserHero from "@/components/users/UserHero";
 
 
 
-const UserView = (props) => {
+const UserView: React.FC<{ props: any }> = (props) => {
   const router = useRouter();
   const { userId } = router.query;
 
