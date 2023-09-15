@@ -10,7 +10,7 @@ const PostFeed: React.FC<PostFeedProps> = ({ userId }) => {
   const { data: posts = [] } = usePosts(userId);
 
   return (
-    <div className=' my-4'>
+    <div className=' my-4 mb-20'>
       {posts.map((post: Record<string, any>,) => (
         <PostItem userId={userId} key={post.id} data={post} />
       ))}

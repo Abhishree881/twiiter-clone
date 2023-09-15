@@ -79,7 +79,8 @@ main {
     flex-direction: column-reverse;
     width: 100%;
     margin: 0;
-    height: 100vh;
+    height: 100%;
+    overflow: hidden;
   }
 
   .sidebar {
@@ -88,11 +89,11 @@ main {
     border-top: 1px solid rgb(18, 18, 18);
     width: 100vw;
     bottom: 0;
-    z-index: 999999;
+    z-index: 1;
   }
 
   .sidenav {
-    z-index: 999999;
+    z-index: 1;
   }
 }
 
