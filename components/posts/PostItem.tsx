@@ -136,14 +136,12 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile }) => {
 
                 {/* <Button secondary label="Edit" onClick={editPostModal.onOpen} /> */}
               </div>
-              <div style={{ gap: "10px", display: "flex", padding: '7px 15px', borderRadius: "20px", backgroundColor: "#303030" }}>
-                {profile && currentUser?.id === userId ? (
+              {profile && currentUser?.id === userId ? (
+                <div style={{ gap: "10px", display: "flex", padding: '7px 15px', borderRadius: "20px", backgroundColor: "#303030" }}>
                   <div style={{ color: "skyblue" }} onClick={editPostModal.onOpen}><FaEdit /></div>
-                ) : ""}
-                {profile && currentUser?.id === userId ? (
                   <div style={{ color: "red" }} onClick={handleClick}><FaTrash /></div>
-                ) : ""}
-              </div>
+                </div>
+              ) : ""}
             </div>
             <div className="text-white mt-1">
               {data.body}
