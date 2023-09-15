@@ -54,8 +54,9 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
       onClick={goToPost}
       style={{ zIndex: 0 }}
       className="
-        border-b-[1px] 
-        border-neutral-800 
+        posts
+        // border-[1px] 
+        // border-neutral-800
         p-5 
         cursor-pointer 
         hover:bg-neutral-900 
