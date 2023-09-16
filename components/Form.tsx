@@ -30,6 +30,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => 
   const [body, setBody] = useState('');
   const [image, setImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [post, setPost] = useState(true);
 
   const onSubmit = useCallback(async () => {
     try {
@@ -39,6 +40,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => 
 
       await axios.post(url, { body, image });
 
+      setPost(false);
       setImage('');
       toast.success('Tweet created');
       setBody('');
@@ -88,7 +90,10 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => 
                 transition"
             />
             {!isComment && (
-              <ImageUpload value={image} disabled={isLoading} onChange={(image) => setImage(image)} label="Upload image" />)}
+              // <div onClick={() => setPost(true)}>
+              <ImageUpload value={image} post={post} disabled={isLoading} onChange={(image) => setImage(image)} label="Upload image" />
+              // </div>
+            )}
 
             <div className="mt-4 flex flex-row justify-end">
               <Button disabled={isLoading || !body} onClick={onSubmit} label="Tweet" />
