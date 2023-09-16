@@ -87,7 +87,8 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => 
                 border-neutral-800 
                 transition"
             />
-            <ImageUpload value={image} disabled={isLoading} onChange={(image) => setImage(image)} label="Upload image" />
+            {!isComment && (
+              <ImageUpload value={image} disabled={isLoading} onChange={(image) => setImage(image)} label="Upload image" />)}
 
             <div className="mt-4 flex flex-row justify-end">
               <Button disabled={isLoading || !body} onClick={onSubmit} label="Tweet" />
