@@ -37,7 +37,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({ label, icon: Icon, href, auth
   return (
     <div onClick={handleClick} className="sidenav-items">
       <div className={`sidenav-items-a relative ${mode ? 'sidenav-items-a-light' : 'sidenav-items-a-dark'}`}>
-        <span className="sidenav-icon"><Icon size={28} /></span>
+        <span className="sidenav-icon"><Icon size={22} /></span>
         {alert ? <BsDot className="text-sky-500 absolute -top-6 -left-1" size={70} /> : null}
         <span className='sidenav-text'>
           {label}
