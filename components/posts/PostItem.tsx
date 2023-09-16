@@ -145,7 +145,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode })
               {data.body}
             </div>
 
-            {/* {data.image && (<img src={data.image} />)} */}
+            {data.image && (<img src={data.image} />)}
             <div className="flex flex-row items-center mt-3 gap-10">
               <div
                 className="
