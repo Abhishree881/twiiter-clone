@@ -10,6 +10,7 @@ import usePost from '@/hooks/usePost';
 
 import Avatar from './Avatar';
 import Button from './Button';
+import ImageUpload from './ImageUpload';
 
 interface FormProps {
   placeholder: string;
@@ -27,6 +28,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => 
   const { mutate: mutatePost } = usePost(postId as string);
 
   const [body, setBody] = useState('');
+  const [image, setImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = useCallback(async () => {
@@ -35,8 +37,9 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => 
 
       const url = isComment ? `/api/comments?postId=${postId}` : '/api/posts';
 
-      await axios.post(url, { body });
+      await axios.post(url, { body, image });
 
+      setImage('');
       toast.success('Tweet created');
       setBody('');
       mutatePosts();
@@ -46,7 +49,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => 
     } finally {
       setIsLoading(false);
     }
-  }, [body, mutatePosts, isComment, postId, mutatePost]);
+  }, [body, image, mutatePosts, isComment, postId, mutatePost]);
 
   return (
     <div className="px-5 py-2" style={{ borderBottom: mode ? "1px solid rgb(206,206,206)" : "1px solid rgb(28,28,28)" }}>
@@ -84,6 +87,8 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => 
                 border-neutral-800 
                 transition"
             />
+            <ImageUpload value={image} disabled={isLoading} onChange={(image) => setImage(image)} label="Upload image" />
+
             <div className="mt-4 flex flex-row justify-end">
               <Button disabled={isLoading || !body} onClick={onSubmit} label="Tweet" />
             </div>

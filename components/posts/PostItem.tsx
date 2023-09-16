@@ -17,9 +17,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FaEdit, FaTrash } from 'react-icons/fa';
 
-
-
-
+import Image from "next/image";
 
 interface PostItemProps {
   data: Record<string, any>;
@@ -146,6 +144,8 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode })
             <div className=" mt-1">
               {data.body}
             </div>
+
+            {data.image && (<img src={data.image} />)}
             <div className="flex flex-row items-center mt-3 gap-10">
               <div
                 className="
