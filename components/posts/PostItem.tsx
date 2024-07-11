@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from 'react-icons/ai';
+import { BsThreeDots } from 'react-icons/bs';
 import { formatDistanceToNowStrict } from 'date-fns';
 
 import useLoginModal from '@/hooks/useLoginModal';
@@ -8,7 +9,6 @@ import useCurrentUser from '@/hooks/useCurrentUser';
 
 import Avatar from '../Avatar';
 import useEditPostModal from "@/hooks/useEditPostModal";
-
 
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -22,7 +22,7 @@ interface PostItemProps {
   userId?: string;
   profile?: boolean;
   mode: number;
-  likePost: (postId: string, hasLiked:boolean, userId: string) => void;
+  likePost: (postId: string, hasLiked: boolean, userId: string) => void;
   getPost: (postId: string) => void;
 }
 
@@ -32,6 +32,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode, l
   const editPostModal = useEditPostModal();
   const { data: currentUser } = useCurrentUser();
   const [hasLiked, setHasLiked] = useState(false);
+  const [submenuVisible, setSubmenuVisible] = useState(false);
 
   useEffect(() => {
     if (currentUser && data.likedIds.includes(currentUser.id)) {
@@ -48,14 +49,14 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode, l
 
   const goToPost = () => {
     router.push(`/posts/${data.id}`);
-  }
+  };
 
   const onLike = (ev: any) => {
     ev.stopPropagation();
     if (!currentUser) {
       return loginModal.onOpen();
     }
-    likePost(data.id, hasLiked,currentUser.id);
+    likePost(data.id, hasLiked, currentUser.id);
   };
 
   const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart;
@@ -72,7 +73,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode, l
 
   const id = data.id;
 
-  const handleClick = useCallback(async (ev: any) => {
+  const handleDeleteClick = useCallback(async (ev: any) => {
     ev.stopPropagation();
     try {
       setIsLoading(true);
@@ -88,11 +89,16 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode, l
     }
   }, [id]);
 
-  const handleEditClick = (ev:any)=>{
+  const handleEditClick = (ev: any) => {
     ev.stopPropagation();
     editPostModal.onOpen();
-    getPost(data.id)
-  }
+    getPost(data.id);
+  };
+
+  const handleMenuClick = (ev: any) => {
+    ev.stopPropagation();
+    setSubmenuVisible(!submenuVisible);
+  };
 
   return (
     <>
@@ -138,16 +144,56 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode, l
                 </span>
               </div>
               {profile && currentUser?.id === userId ? (
-                <div style={{ gap: "10px", display: "flex", padding: '7px 15px', borderRadius: "20px", border: "1px solid rgb(128,128,128)" }}>
-                  <div style={{ color: "skyblue" }} onClick={(ev)=>handleEditClick(ev)}><FaEdit /></div>
-                  <div style={{ color: "red" }} onClick={handleClick}><FaTrash /></div>
+                <div style={{ position: "relative" }}>
+                  <div
+                    style={{ color: submenuVisible ? "blue" : "inherit" }}
+                    onClick={handleMenuClick}
+                    className="cursor-pointer"
+                  >
+                    <BsThreeDots size={20} className="hover:text-blue-500" />
+                  </div>
+                  {submenuVisible && (
+                    <div
+                      className={`
+                      absolute 
+                      right-0 
+                      w-22 
+                      rounded-md 
+                      shadow-lg 
+                      z-20
+                      ${mode ? 'bg-white' : 'bg-gray-800'}
+                      `}
+                      style={{
+                        border: `1px solid ${mode ? 'rgb(128,128,128)' : 'gray'}`,
+                        top: "80%",
+                        right: 0,
+                      }}
+                    >
+                      <div className="flex flex-col p-2">
+                        <div
+                          className="flex items-center gap-2 p-2 rounded-md cursor-pointer text-xs hover:bg-blue-500 hover:text-white"
+                          onClick={(ev) => handleEditClick(ev)}
+                        >
+                          <FaEdit />
+                          <span>Edit</span>
+                        </div>
+                        <div
+                          className="flex items-center gap-2 p-2 rounded-md cursor-pointer text-xs hover:bg-red-500 hover:text-white"
+                          onClick={handleDeleteClick}
+                        >
+                          <FaTrash />
+                          <span>Delete</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : ""}
             </div>
-            <div className=" mt-1">
+            <div className="mt-1">
               {data.body}
             </div>
-            {data.image && (<img src={data.image} />)}
+            {data.image && (<img className='mt-2 rounded-lg' style={{maxHeight:"350px"}} src={data.image} alt="Post image" />)}
             <div className="flex flex-row items-center mt-3 gap-10">
               <div
                 className="
@@ -198,4 +244,4 @@ const mapDispatchToProps = {
   getPost
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(PostItem);
+export default connect(mapStateToProps, mapDispatchToProps)(PostItem);
