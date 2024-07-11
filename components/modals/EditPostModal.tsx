@@ -2,28 +2,27 @@ import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
-import useCurrentUser from "@/hooks/useCurrentUser";
 import useEditPostModal from "@/hooks/useEditPostModal";
-import usePost from "@/hooks/usePost";
 
 import Input from "../Input";
 import Modal from "../Modal";
 import ImageUpload from "../ImageUpload";
+import { connect } from "react-redux";
 
 interface PostItemProps {
-    data: Record<string, any>;
+    post: any;
 }
 
-const EditPostModal: React.FC<PostItemProps> = ({ data = {} }) => {
-    const { data: fetchedPost, mutate: mutateFetchedPost } = usePost(data.id);
-    const id = data.id;
+const EditPostModal: React.FC<PostItemProps> = ({ post }) => {
+    // const { data: fetchedPost, mutate: mutateFetchedPost } = usePost(data.id);
+    const id = post.id;
     const editModal = useEditPostModal();
 
     const [body, setBody] = useState('');
 
     useEffect(() => {
-        setBody(fetchedPost?.body)
-    }, [fetchedPost?.body]);
+        setBody(post?.body)
+    }, [post?.body]);
 
 
     const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +32,7 @@ const EditPostModal: React.FC<PostItemProps> = ({ data = {} }) => {
             setIsLoading(true);
 
             await axios.put('/api/editpost', { body, id });
-            mutateFetchedPost();
+            // mutateFetchedPost();
 
             toast.success('Updated');
 
@@ -43,7 +42,7 @@ const EditPostModal: React.FC<PostItemProps> = ({ data = {} }) => {
         } finally {
             setIsLoading(false);
         }
-    }, [editModal, body, mutateFetchedPost]);
+    }, [editModal, body]);
 
     const bodyContent = (
         <div className="flex flex-col gap-4">
@@ -69,4 +68,14 @@ const EditPostModal: React.FC<PostItemProps> = ({ data = {} }) => {
     );
 }
 
-export default EditPostModal;
+const mapStateToProps = (state: any) => {
+    return {
+        post: state.post.post,
+    };
+};
+
+const mapDispatchToProps={
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditPostModal);;

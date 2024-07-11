@@ -1,64 +1,59 @@
 import axios from 'axios';
-import { useCallback, useState } from 'react';
+import { use, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 import useLoginModal from '@/hooks/useLoginModal';
 import useRegisterModal from '@/hooks/useRegisterModal';
 import useCurrentUser from '@/hooks/useCurrentUser';
-import usePosts from '@/hooks/usePosts';
-import usePost from '@/hooks/usePost';
 
 import Avatar from './Avatar';
 import Button from './Button';
 import ImageUpload from './ImageUpload';
+import { createPost } from '@/actions/postActions';
+import { connect } from 'react-redux';
 
 interface FormProps {
   placeholder: string;
   isComment?: boolean;
   postId?: string;
   mode: number;
+  createPost: (isComment: any, body: any, image: any, postId: any) => void;
+  posting: any;
 }
 
-const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => {
+const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode, createPost, posting}) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
 
   const { data: currentUser } = useCurrentUser();
-  const { mutate: mutatePosts } = usePosts();
-  const { mutate: mutatePost } = usePost(postId as string);
-
   const [body, setBody] = useState('');
   const [image, setImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [post, setPost] = useState(true);
+  const [label, setLabel] = useState('Tweet');
 
-  const onSubmit = useCallback(async () => {
-    try {
-      setIsLoading(true);
-
-      const url = isComment ? `/api/comments?postId=${postId}` : '/api/posts';
-
-      await axios.post(url, { body, image });
-
+  useEffect(() => {
+    if (posting) {
+      setLabel('Tweet');
       setPost(false);
       setImage('');
-      toast.success('Tweet created');
       setBody('');
-      mutatePosts();
-      mutatePost();
-    } catch (error) {
-      toast.error('Something went wrong');
-    } finally {
       setIsLoading(false);
     }
-  }, [body, image, mutatePosts, isComment, postId, mutatePost]);
+  }, [posting]);
+
+  const onSubmit = () => {
+    setIsLoading(true);
+    setLabel('Posting...');
+    createPost(isComment, body, image, postId);
+  };
 
   return (
     <div className="px-5 py-2" style={{ borderBottom: mode ? "1px solid rgb(206,206,206)" : "1px solid rgb(28,28,28)" }}>
       {currentUser ? (
         <div className="flex flex-row gap-4">
           <div>
-            <Avatar userId={currentUser?.id} />
+            <Avatar userId={currentUser?.id} noApi={true} imgUrl={currentUser?.profileImage} />
           </div>
           <div className="w-full">
             <textarea
@@ -96,7 +91,7 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => 
             )}
 
             <div className="mt-4 flex flex-row justify-end">
-              <Button disabled={isLoading || !body} onClick={onSubmit} label="Tweet" />
+              <Button disabled={isLoading || !body} onClick={onSubmit} label={label} />
             </div>
           </div>
         </div>
@@ -113,4 +108,13 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode }) => 
   );
 };
 
-export default Form;
+const mapStateToProps = (state: any) => ({
+  posting: state.post.posting,
+});
+
+const mapDispatchToProps = {
+  createPost
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

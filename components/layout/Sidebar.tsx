@@ -4,6 +4,7 @@ import { BsHouseFill, BsBellFill } from 'react-icons/bs';
 import { FaUser } from 'react-icons/fa';
 import { IoMdSwitch } from 'react-icons/io';
 import useCurrentUser from '@/hooks/useCurrentUser';
+import { FaXTwitter } from "react-icons/fa6";
 import Link from 'next/link';
 
 import SidebarItem from './SidebarItem';
@@ -45,8 +46,7 @@ const Sidebar: React.FC<{ mode: number, setMode: (newMode: number) => void; }> =
   return (
     <div className={`sidebar-body ${mode ? "sidebar-body-light" : "sidebar-body-dark"}`}>
       <Link href="/"  >
-        {mode ? <img className='logo' style={{ marginLeft: "12px" }} src='https://clipart.info/images/ccovers/1534043161Twitter-Bird-Png.png' /> :
-          <img className='logo' src="https://i.ytimg.com/vi/bZqPmiikY-s/maxresdefault.jpg" />}
+        <FaXTwitter className='logo' style={{ color: !mode ? '#fff': "#000"}} />
       </Link>
       <div className="sidenav">
         {items.map((item) => (

@@ -37,7 +37,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ data = {} }) => {
         transition
       ">
       <div className="flex flex-row items-start gap-3">
-        <Avatar userId={data.user.id} />
+        <Avatar userId={data.user.id} noApi={true} imgUrl={data.user.profileImage} />
         <div>
           <div className="flex flex-row items-center gap-2">
             <p

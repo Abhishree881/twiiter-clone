@@ -129,8 +129,8 @@ main {
 }
 
 .logo {
-  height: 50px;
-  transform: translateX(-18px);
+  font-size: 2rem;
+  margin: 6px;
 }
 
 .sidenav-items-a {
@@ -282,7 +282,7 @@ main {
   margin: auto;
   border-radius: 15px;
   padding: 15px;
-  max-height: 88vh;
+  max-height: 670px;
   overflow-y: hidden;
 }
 

@@ -1,27 +1,34 @@
 import Image from "next/image";
-import { useRouter } from "next/router";
-import { useCallback } from "react";
-
 import useUser from "@/hooks/useUser";
+import { useEffect, useState } from "react";
+import { getUser } from "@/actions/userActions";
 
 interface AvatarProps {
   userId: string;
   isLarge?: boolean;
   hasBorder?: boolean;
+  imgUrl?: string;
+  noApi?: boolean;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
-  const router = useRouter();
+const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder,imgUrl,noApi }) => {
+  // const { data: fetchedUser } = useUser(userId);
+  const  [firstLoad, setFirstLoad] = useState(true);
+  const [fetchedUser, setFetchedUser] = useState<any>(null);
+  const handleAvatar = async() => {
+    const data = await getUser(userId);
+    if (firstLoad && data) {
+      setFirstLoad(false);
+      setFetchedUser(data);
+    }
+  }
 
-  const { data: fetchedUser } = useUser(userId);
-
-  const onClick = useCallback((event: any) => {
-    event.stopPropagation();
-
-    const url = `/users/${userId}`;
-
-    router.push(url);
-  }, [router, userId]);
+  useEffect(()=>{
+    if(firstLoad && !noApi){
+      handleAvatar();
+    }
+  },[firstLoad])
+  
 
   return (
     <div
@@ -44,8 +51,7 @@ const Avatar: React.FC<AvatarProps> = ({ userId, isLarge, hasBorder }) => {
           zIndex: '0'
         }}
         alt="Avatar"
-        onClick={onClick}
-        src={fetchedUser?.profileImage || '/images/placeholder.png'}
+        src={fetchedUser?.profileImage || imgUrl || '/images/placeholder.png'}
       />
     </div>
   );

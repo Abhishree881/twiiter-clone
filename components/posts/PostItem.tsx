@@ -1,61 +1,62 @@
 import { useRouter } from 'next/router';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
 import { AiFillHeart, AiOutlineHeart, AiOutlineMessage } from 'react-icons/ai';
 import { formatDistanceToNowStrict } from 'date-fns';
 
 import useLoginModal from '@/hooks/useLoginModal';
 import useCurrentUser from '@/hooks/useCurrentUser';
-import useLike from '@/hooks/useLike';
 
 import Avatar from '../Avatar';
 import useEditPostModal from "@/hooks/useEditPostModal";
-import Button from "../Button";
 
-import EditPostModal from '../modals/EditPostModal';
 
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FaEdit, FaTrash } from 'react-icons/fa';
-
-import Image from "next/image";
+import { likePost } from '@/actions/likeActions';
+import { connect } from 'react-redux';
+import { getPost } from '@/actions/postActions';
 
 interface PostItemProps {
   data: Record<string, any>;
   userId?: string;
   profile?: boolean;
   mode: number;
+  likePost: (postId: string, hasLiked:boolean, userId: string) => void;
+  getPost: (postId: string) => void;
 }
 
-const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode }) => {
-
+const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode, likePost, getPost }) => {
   const router = useRouter();
   const loginModal = useLoginModal();
-
   const editPostModal = useEditPostModal();
-
   const { data: currentUser } = useCurrentUser();
-  // console.log(currentUser.id + " hello " + userId);
+  const [hasLiked, setHasLiked] = useState(false);
 
-  const { hasLiked, toggleLike } = useLike({ postId: data.id, userId });
+  useEffect(() => {
+    if (currentUser && data.likedIds.includes(currentUser.id)) {
+      setHasLiked(true);
+    } else {
+      setHasLiked(false);
+    }
+  }, [currentUser, data.likedIds]);
 
-  const goToUser = useCallback((ev: any) => {
+  const goToUser = (ev: any) => {
     ev.stopPropagation();
-    router.push(`/users/${data.user.id}`)
-  }, [router, data.user.id]);
+    router.push(`/users/${data.user.id}`);
+  };
 
-  const goToPost = useCallback(() => {
+  const goToPost = () => {
     router.push(`/posts/${data.id}`);
-  }, [router, data.id]);
+  }
 
-  const onLike = useCallback(async (ev: any) => {
+  const onLike = (ev: any) => {
     ev.stopPropagation();
-
     if (!currentUser) {
       return loginModal.onOpen();
     }
-
-    toggleLike();
-  }, [loginModal, currentUser, toggleLike]);
+    likePost(data.id, hasLiked,currentUser.id);
+  };
 
   const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart;
 
@@ -65,7 +66,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode })
     }
 
     return formatDistanceToNowStrict(new Date(data.createdAt));
-  }, [data.createdAt])
+  }, [data.createdAt]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -79,6 +80,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode })
       await axios.delete('/api/delete', { data: { id } });
 
       toast.success('Deleted');
+      // setFetch(true);  // Trigger a re-fetch in the parent component
     } catch (error) {
       toast.error('Something went wrong');
     } finally {
@@ -86,10 +88,14 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode })
     }
   }, [id]);
 
+  const handleEditClick = (ev:any)=>{
+    ev.stopPropagation();
+    editPostModal.onOpen();
+    getPost(data.id)
+  }
 
   return (
     <>
-      <EditPostModal data={data} />
       <div
         onClick={goToPost}
         style={{ zIndex: 0 }}
@@ -103,7 +109,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode })
         transition
         `}>
         <div className="flex flex-row items-start gap-3">
-          <Avatar userId={data.user.id} />
+          <Avatar userId={data.user.id} noApi={true} imgUrl={data.user.profileImage} />
           <div style={{ width: "100%" }}>
             <div style={{ display: "flex", justifyContent: 'space-between', flexDirection: "row", width: "100%" }}>
               <div className="flex flex-row items-center gap-2">
@@ -130,13 +136,10 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode })
                 <span className="text-neutral-500 text-sm">
                   {createdAt}
                 </span>
-
-
-                {/* <Button secondary label="Edit" onClick={editPostModal.onOpen} /> */}
               </div>
               {profile && currentUser?.id === userId ? (
                 <div style={{ gap: "10px", display: "flex", padding: '7px 15px', borderRadius: "20px", border: "1px solid rgb(128,128,128)" }}>
-                  <div style={{ color: "skyblue" }} onClick={editPostModal.onOpen}><FaEdit /></div>
+                  <div style={{ color: "skyblue" }} onClick={(ev)=>handleEditClick(ev)}><FaEdit /></div>
                   <div style={{ color: "red" }} onClick={handleClick}><FaTrash /></div>
                 </div>
               ) : ""}
@@ -144,7 +147,6 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode })
             <div className=" mt-1">
               {data.body}
             </div>
-
             {data.image && (<img src={data.image} />)}
             <div className="flex flex-row items-center mt-3 gap-10">
               <div
@@ -185,7 +187,15 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode })
         </div>
       </div >
     </>
-  )
-}
+  );
+};
 
-export default PostItem;
+const mapStateToProps = (state: any) => ({
+});
+
+const mapDispatchToProps = {
+  likePost,
+  getPost
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(PostItem);
