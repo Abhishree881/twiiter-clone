@@ -2,11 +2,11 @@ import Image from "next/image";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaRegImage } from "react-icons/fa6";
-import { AiTwotoneCloseCircle } from "react-icons/ai";
+import { FaWindowClose } from "react-icons/fa";
 interface DropzoneProps {
   onChange: (base64: string) => void;
   label: string;
-  value?: string;
+  value: string;
   disabled?: boolean;
   post?: boolean;
 }
@@ -39,21 +39,24 @@ const ImageUpload: React.FC<DropzoneProps> = ({ onChange, label, value, disabled
   });
 
   return (
-    <div {...getRootProps({ className: value?'w-full p-4 flex flex-row justify-left ': ""})}>
+    <div {...getRootProps({ className: value?'w-full p-4 flex flex-row justify-left ': post ? "" :"w-full p-4 text-white text-center border-2 border-dotted rounded-md border-neutral-700"})}>
       <input {...getInputProps()} />
-      {base64 && post ? (
+      {value ? (
         <div className="flex items-center justify-center relative">
           <Image
-            src={base64}
-            height="500"
+            src={value}
+            height="100"
             width="100"
-            className=" h-80 w-full rounded-md"
+            className={post ?" h-80 w-full rounded-md": ""}
             alt="Uploaded image"
           />
-          <AiTwotoneCloseCircle className="absolute top-0 right-0 mt-2 mr-2 text-2xl text-red-500 cursor-pointer" onClick={(e) =>{ e.stopPropagation(); setBase64(""); onChange("")}} />
+          <FaWindowClose className="absolute top-0 right-0 mt-2 mr-2 text-2xl text-gray-900 cursor-pointer hover:text-[#1DA1F2]" onClick={(e) =>{ e.stopPropagation(); setBase64(""); onChange("")}} />
         </div>
       ) : (
-       <FaRegImage style={{ fontSize: 20, color: "#1DA1F2", cursor: "pointer" }} />
+        post?
+          <FaRegImage style={{ fontSize: 20, color: "#1DA1F2", cursor: "pointer" }} />
+        :
+          <p className="text-white">{label}</p>
       )}
     </div>
   );
