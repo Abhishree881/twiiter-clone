@@ -10,6 +10,7 @@ import EditPostModal from '@/components/modals/EditPostModal';
 import { useState } from 'react';
 import { Provider } from 'react-redux';
 import store from '@/store/store';
+import CreatePostModal from '@/components/modals/CreatePostModal';
 
 
 const App: React.FC<{ Component: any, pageProps: any }> = ({ Component, pageProps }) => {
@@ -22,6 +23,7 @@ const App: React.FC<{ Component: any, pageProps: any }> = ({ Component, pageProp
         <LoginModal />
         <EditModal />
         <EditPostModal />
+        <CreatePostModal/>
         <Layout mode={mode} setMode={setMode}>
           <Component {...pageProps} mode={mode} />
         </Layout>

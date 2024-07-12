@@ -87,13 +87,13 @@ const Form: React.FC<FormProps> = ({ placeholder, isComment, postId, mode, creat
             
             {!isComment && image  && (
               // <div onClick={() => setPost(true)}>
-              <ImageUpload value={image} post={post} disabled={isLoading} onChange={(image) => setImage(image)} label="Upload image" />
+              <ImageUpload value={image} post={true} disabled={isLoading} onChange={(image) => setImage(image)} label="Upload image" />
               // </div>
             )}
             <div className="mt-4 flex flex-row justify-end gap-4 relative" style={{alignItems: 'center'}}>
             {!isComment && !image  && (
               // <div onClick={() => setPost(true)}>
-              <ImageUpload value={image} post={post} disabled={isLoading} onChange={(image) => setImage(image)} label="Upload image" />
+              <ImageUpload value={image} post={true} disabled={isLoading} onChange={(image) => setImage(image)} label="Upload image" />
               // </div>
             )}
               <Button disabled={isLoading || !body} onClick={onSubmit} label={label} />

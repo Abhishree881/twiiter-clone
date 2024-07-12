@@ -50,13 +50,13 @@ const ImageUpload: React.FC<DropzoneProps> = ({ onChange, label, value, disabled
             className={post ?" h-80 w-full rounded-md": ""}
             alt="Uploaded image"
           />
-          <FaWindowClose className="absolute top-0 right-0 mt-2 mr-2 text-2xl text-gray-900 cursor-pointer hover:text-[#1DA1F2]" onClick={(e) =>{ e.stopPropagation(); setBase64(""); onChange("")}} />
+          <FaWindowClose style={{cursor:disabled?"not-allowed": "pointer"}} className="absolute top-0 right-0 mt-2 mr-2 text-2xl text-gray-900 hover:text-[#1DA1F2]" onClick={(e) =>{ if(!disabled){ e.stopPropagation(); setBase64(""); onChange("")}}} />
         </div>
       ) : (
         post?
           <FaRegImage style={{ fontSize: 20, color: "#1DA1F2", cursor: "pointer" }} />
         :
-          <p className="text-white">{label}</p>
+          <p className="text-white cursor-pointer">{label}</p>
       )}
     </div>
   );

@@ -19,8 +19,6 @@ const Header: React.FC<HeaderProps> = ({ showBackArrow, label, mode }) => {
     document.title = `${label} / Twitter`;
   }, []);
 
-  console.log(mode);
-
   return (
     <div className="home">
       <div className={`home-header ${mode ? 'home-header-light' : 'home-header-dark'}`}>

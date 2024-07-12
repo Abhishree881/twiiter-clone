@@ -15,7 +15,7 @@ import { toast } from "react-hot-toast";
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { likePost } from '@/actions/likeActions';
 import { connect } from 'react-redux';
-import { getPost } from '@/actions/postActions';
+import { getPost, refreshPost } from '@/actions/postActions';
 
 interface PostItemProps {
   data: Record<string, any>;
@@ -24,9 +24,10 @@ interface PostItemProps {
   mode: number;
   likePost: (postId: string, hasLiked: boolean, userId: string) => void;
   getPost: (postId: string) => void;
+  refreshPost: () => void;
 }
 
-const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode, likePost, getPost }) => {
+const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode, likePost, getPost, refreshPost }) => {
   const router = useRouter();
   const loginModal = useLoginModal();
   const editPostModal = useEditPostModal();
@@ -79,8 +80,9 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId, profile, mode, l
       setIsLoading(true);
 
       await axios.delete('/api/delete', { data: { id } });
-
+      
       toast.success('Deleted');
+      refreshPost();
       // setFetch(true);  // Trigger a re-fetch in the parent component
     } catch (error) {
       toast.error('Something went wrong');
@@ -241,7 +243,8 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = {
   likePost,
-  getPost
+  getPost,
+  refreshPost
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostItem);

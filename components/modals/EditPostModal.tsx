@@ -8,12 +8,14 @@ import Input from "../Input";
 import Modal from "../Modal";
 import ImageUpload from "../ImageUpload";
 import { connect } from "react-redux";
+import { refreshPost } from "@/actions/postActions";
 
 interface PostItemProps {
     post: any;
+    refreshPost: () => void;
 }
 
-const EditPostModal: React.FC<PostItemProps> = ({ post }) => {
+const EditPostModal: React.FC<PostItemProps> = ({ post, refreshPost }) => {
     // const { data: fetchedPost, mutate: mutateFetchedPost } = usePost(data.id);
     const id = post.id;
     const editModal = useEditPostModal();
@@ -35,7 +37,7 @@ const EditPostModal: React.FC<PostItemProps> = ({ post }) => {
             // mutateFetchedPost();
 
             toast.success('Updated');
-
+            refreshPost();
             editModal.onClose();
         } catch (error) {
             toast.error('Something went wrong');
@@ -75,7 +77,7 @@ const mapStateToProps = (state: any) => {
 };
 
 const mapDispatchToProps={
-
+    refreshPost
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPostModal);;
